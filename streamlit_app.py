@@ -6,16 +6,9 @@ from nltk.corpus import stopwords
 import textstat
 from joblib import load
 import spacy
-from spacy.cli.download import download
-
-# Check if the model is installed, and if not, download it
-model_name = "fr_core_news_sm"
-if model_name not in spacy.util.get_installed_models():
-    st.write("Downloading and installing the French language model...")
-    download(model_name)
 
 # Load the French language model from SpaCy
-nlp = spacy.load(model_name)
+nlp = spacy.load("fr_core_news_sm")
 
 # Load your trained model
 @st.cache(allow_output_mutation=True)  # Use caching to load the model only once
