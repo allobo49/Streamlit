@@ -78,7 +78,7 @@ if st.button("Predict Difficulty"):
                 features = extract_features(user_input)
                 prediction = model.predict(features)
                 predicted_cefr = map_to_cefr(prediction[0])
-                st.write(f"Predicted CEFR Level: {predicted_cefr}")
+                st.write(f"Predicted difficulty level: {predicted_cefr}")
         except Exception as e:
             st.error(f"An error occurred during prediction: {str(e)}")
     else:
