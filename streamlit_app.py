@@ -6,18 +6,18 @@ from nltk.corpus import stopwords
 from joblib import load
 import textstat
 
-# Load your trained model
-@st.cache(allow_output_mutation=True)
-def load_model():
-    try:
-        model = load('best_model_LR_features.joblib')
-        return model
-    except Exception as e:
-        st.error(f"Error loading model: {str(e)}")
-        return None
+import nltk
+import os
 
-# NLTK resources for stopwords
-nltk.download('stopwords')
+# Set NLTK data path
+nltk_data_path = os.path.join(os.getcwd(), 'nltk_data')
+nltk.data.path.append(nltk_data_path)
+
+# Download the stopwords corpus
+try:
+    nltk.download('stopwords', download_dir=nltk_data_path)
+except Exception as e:
+    print("Error downloading NLTK resources:", e)
 
 
 # Define the required functions for feature extraction
