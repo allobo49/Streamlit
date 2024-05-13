@@ -6,6 +6,7 @@ from nltk.corpus import stopwords
 import textstat
 from joblib import load
 import spacy
+from spacy.cli.download import download
 
 # Check if the model is installed, and if not, download it
 model_name = "fr_core_news_sm"
