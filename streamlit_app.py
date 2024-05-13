@@ -6,6 +6,7 @@ from nltk.corpus import stopwords
 import textstat
 from joblib import load
 import spacy
+!python -m spacy download fr_core_news_sm
 
 # Load the French language model from SpaCy
 nlp = spacy.load('fr_core_news_sm')
@@ -46,8 +47,8 @@ def stopword_proportion(text):
 def flesch_kincaid_readability(text):
     return textstat.flesch_kincaid_grade(text)
 
-def analyze_pos(sentence):
-    doc = nlp(sentence)
+def analyze_pos(text):
+    doc = nlp(text)
     pos_counts = {}
     for token in doc:
         if token.pos_ in pos_counts:
