@@ -70,7 +70,7 @@ if st.button("Predict Difficulty"):
     if user_input:
         st.write("Text provided:", user_input)
         try:
-            model = load_model()
+            model = load('best_model_LR_features.joblib')
             if model:
                 st.write("Model loaded!")
                 features = extract_features(user_input)
