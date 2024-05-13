@@ -1,8 +1,6 @@
-streamlit
-scikit-learn
-joblib
-nltk
-textstat
 pandas
 numpy
+nltk
+textstat
+joblib
 spacy
