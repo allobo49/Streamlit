@@ -12,7 +12,7 @@ from spacy.cli.download import download
 model_name = "fr_core_news_sm"
 if model_name not in spacy.util.get_installed_models():
     st.write("Downloading and installing the French language model...")
-    subprocess.call(['python', '-m', 'spacy', 'download', model_name])
+    download(model_name)
 
 # Load the French language model from SpaCy
 nlp = spacy.load(model_name)
