@@ -6,7 +6,6 @@ from nltk.corpus import stopwords
 import textstat
 from joblib import load
 import spacy
-!python -m spacy download fr_core_news_sm
 
 # Load the French language model from SpaCy
 nlp = spacy.load('fr_core_news_sm')
