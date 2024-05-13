@@ -6,7 +6,6 @@ import textstat
 from nltk.corpus import stopwords
 from joblib import load
 
-@st.cache(allow_output_mutation=True)
 # Load your trained model
 @st.cache(allow_output_mutation=True)
 def load_model():
