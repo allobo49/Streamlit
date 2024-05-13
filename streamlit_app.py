@@ -9,7 +9,7 @@ import spacy
 import os
 
 # Specify the path to the model directory
-model_path = '/path/to/fr_core_news_sm'
+model_path = '/usr/local/lib/python3.10/dist-packages/spacy'
 
 # Check if the model directory exists
 if not os.path.exists(model_path):
