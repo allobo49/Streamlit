@@ -68,11 +68,10 @@ user_input = st.text_area("Insert your text here", height=150)
 if st.button("Predict Difficulty"):
     st.write("Button clicked!")
     if user_input:
-        st.write("Text provided:", user_input)
+        st.write("Predicting the difficulty...")
         try:
             model = load('best_model_LR_features.joblib')
             if model:
-                st.write("Model loaded!")
                 prediction = model.predict(features)
                 st.write(f"Predicted Difficulty Level: {prediction[0]}")
         except Exception as e:
