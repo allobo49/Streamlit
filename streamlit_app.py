@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import nltk
+import textstat 
 from nltk.corpus import stopwords
 from joblib import load
 
