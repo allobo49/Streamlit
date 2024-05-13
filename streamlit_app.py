@@ -5,7 +5,6 @@ import nltk
 from nltk.corpus import stopwords
 import textstat
 from joblib import load
-import spacy
 
 # Load your trained model
 @st.cache(allow_output_mutation=True)  # Use caching to load the model only once
