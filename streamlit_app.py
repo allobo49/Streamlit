@@ -66,9 +66,7 @@ st.write('Enter a French text below and click the button to analyze its difficul
 user_input = st.text_area("Insert your text here", height=150)
 
 if st.button("Predict Difficulty"):
-    st.write("Button clicked!")
     if user_input:
-        st.write("Predicting the difficulty...")
         try:
             model = load('best_model_LR_features.joblib')
             if model:
