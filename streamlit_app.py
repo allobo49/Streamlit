@@ -2,6 +2,17 @@ import streamlit as st
 import pandas as pd
 from joblib import load
 import numpy as np
+import nltk
+from nltk.corpus import stopwords
+
+# Download the stopwords from NLTK
+nltk.download('stopwords')
+
+# Ensure the function that uses NLTK is correctly using the downloaded data
+def stopword_proportion(text):
+    sw = set(stopwords.words('english'))  # Make sure this is correct; you mentioned French texts
+    words = text.split()
+    return sum(1 for word in words if word in sw) / len(words)
 
 # Load your trained model
 @st.cache(allow_output_mutation=True)  # Use caching to load the model only once
