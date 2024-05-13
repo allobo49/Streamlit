@@ -1,29 +1,62 @@
 import streamlit as st
 import pandas as pd
+from joblib import load
 import numpy as np
 
-# Set the title of the app
-st.title('Interactive Line Chart Example')
+# Load your trained model
+@st.cache(allow_output_mutation=True)  # Use caching to load the model only once
+def load_model():
+    return load('best_model_LR_features.joblib')  # Adjust the path as needed
 
-# Generate a random dataset
-@st.cache  # Use caching to speed up load times when the data doesn't change
-def generate_data(num_points):
-    """Generates a simple dataset with the specified number of points."""
-    time = pd.date_range('2023-01-01', periods=num_points, freq='D')
-    values = np.random.randn(num_points).cumsum()
-    data = pd.DataFrame({'Time': time, 'Value': values})
-    return data
+model = load_model()
 
-# Slider for the number of data points to generate
-num_points = st.slider('Select the number of data points', min_value=10, max_value=1000, value=300)
+# Define the required functions for feature extraction
+def count_words(text):
+    return len(text.split())
 
-# Generate and display the data
-data = generate_data(num_points)
-st.write(f"Data with {num_points} points")
+def add_dot(text):
+    if not text.endswith('.'):
+        text += '.'
+    return text
 
-# Plotting the data using a line chart
-st.line_chart(data.set_index('Time'))
+def avg_word_length(text):
+    words = text.split()
+    return np.mean([len(word) for word in words])
 
-# Display the raw data as a table
-if st.checkbox('Show raw data'):
-    st.write(data)
+def count_punctuation(text):
+    from string import punctuation
+    return sum(1 for char in text if char in punctuation)
+
+def stopword_proportion(text):
+    from nltk.corpus import stopwords
+    sw = set(stopwords.words('english'))
+    words = text.split()
+    return sum(1 for word in words if word in sw) / len(words)
+
+def flesch_kincaid_readability(text):
+    import textstat
+    return textstat.flesch_kincaid_grade(text)
+
+# Create a function to extract features from text
+def extract_features(text):
+    features = {
+        'count_words': count_words(text),
+        'avg_word_length': avg_word_length(text),
+        'punctuation_count': count_punctuation(text),
+        'stopword_proportion': stopword_proportion(text),
+        'flesch_kincaid_readability': flesch_kincaid_readability(text),
+        # Add the other features extraction as needed
+    }
+    return pd.DataFrame([features])
+
+# Streamlit app interface
+st.title("Text Difficulty Prediction")
+input_text = st.text_area("Enter text here:", height=200)
+if st.button("Predict Difficulty"):
+    if input_text:
+        # Feature extraction and reshape the input for the model
+        features = extract_features(input_text)
+        prediction = model.predict(features)
+        st.write(f"Predicted Difficulty Level: {prediction[0]}")
+    else:
+        st.write("Please enter some text to predict its difficulty.")
