@@ -50,8 +50,13 @@ def extract_features(text):
     return pd.DataFrame([features])
 
 # Streamlit app interface
-st.title("Text Difficulty Prediction")
-input_text = st.text_area("Enter text here:", height=200)
+st.title('French4U 🇫🇷')
+st.header('Text Difficulty Predictor')
+st.write('Enter a French text below and click the button to analyze its difficulty. The difficulty is rated on a scale from 0 to 6, where 0 corresponds to a basic A1 level and 6 denotes proficiency at the C2 level.')
+
+# Text input from the user
+user_input = st.text_area("Insert your text here", height=150)
+
 if st.button("Predict Difficulty"):
     if input_text:
         # Feature extraction and reshape the input for the model
