@@ -1,16 +1,25 @@
 import streamlit as st
 import pandas as pd
-from joblib import load
 import numpy as np
 import nltk
 from nltk.corpus import stopwords
+import textstat
+from joblib import load
+import spacy
+
+# Load the French language model from SpaCy
+nlp = spacy.load('fr_core_news_sm')
 
 # Load your trained model
 @st.cache(allow_output_mutation=True)  # Use caching to load the model only once
 def load_model():
-    return load('best_model_LR_features.joblib')  # Adjust the path as needed
+    return load('best_model_LR_features.joblib')
 
 model = load_model()
+
+# NLTK resources for stopwords
+nltk.download('stopwords')
+nltk.download('punkt')
 
 # Define the required functions for feature extraction
 def count_words(text):
@@ -30,39 +39,50 @@ def count_punctuation(text):
     return sum(1 for char in text if char in punctuation)
 
 def stopword_proportion(text):
-    from nltk.corpus import stopwords
     sw = set(stopwords.words('french'))
     words = text.split()
     return sum(1 for word in words if word in sw) / len(words)
 
 def flesch_kincaid_readability(text):
-    import textstat
     return textstat.flesch_kincaid_grade(text)
 
-# Create a function to extract features from text
+def analyze_pos(sentence):
+    doc = nlp(sentence)
+    pos_counts = {}
+    for token in doc:
+        if token.pos_ in pos_counts:
+            pos_counts[token.pos_] += 1
+        else:
+            pos_counts[token.pos_] = 1
+    return pos_counts
+
 def extract_features(text):
-    features = {
+    base_features = {
         'count_words': count_words(text),
         'avg_word_length': avg_word_length(text),
         'punctuation_count': count_punctuation(text),
         'stopword_proportion': stopword_proportion(text),
-        'flesch_kincaid_readability': flesch_kincaid_readability(text),
-        # Add the other features extraction as needed
+        'flesch_kincaid_readability': flesch_kincaid_readability(text)
     }
-    return pd.DataFrame([features])
+    pos_features = analyze_pos(text)
+    features = {**base_features, **pos_features}
+    df = pd.DataFrame([features])
+    return df
 
 # Streamlit app interface
 st.title('French4U 🇫🇷')
 st.header('Text Difficulty Predictor')
-st.write('Enter a French text below and click the button to analyze its difficulty. The difficulty is rated on a scale from 0 to 6, where 0 corresponds to a basic A1 level and 6 denotes proficiency at the C2 level.')
+st.write('Enter a French text below and click the button to analyze its difficulty.')
 
 user_input = st.text_area("Insert your text here", height=150)
 
 if st.button("Predict Difficulty"):
-    if user_input:  # Correct the variable name here
-        # Feature extraction and reshape the input for the model
-        features = extract_features(user_input)  # And here
-        prediction = model.predict(features)
-        st.write(f"Predicted Difficulty Level: {prediction[0]}")
+    if user_input:
+        try:
+            features = extract_features(user_input)
+            prediction = model.predict(features)
+            st.write(f"Predicted Difficulty Level: {prediction[0]}")
+        except Exception as e:
+            st.error(f"An error occurred during prediction: {str(e)}")
     else:
         st.write("Please enter some text to predict its difficulty.")
