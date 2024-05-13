@@ -5,15 +5,6 @@ import numpy as np
 import nltk
 from nltk.corpus import stopwords
 
-# Download the stopwords from NLTK
-nltk.download('stopwords')
-
-# Ensure the function that uses NLTK is correctly using the downloaded data
-def stopword_proportion(text):
-    sw = set(stopwords.words('english'))  # Make sure this is correct; you mentioned French texts
-    words = text.split()
-    return sum(1 for word in words if word in sw) / len(words)
-
 # Load your trained model
 @st.cache(allow_output_mutation=True)  # Use caching to load the model only once
 def load_model():
@@ -38,9 +29,14 @@ def count_punctuation(text):
     from string import punctuation
     return sum(1 for char in text if char in punctuation)
 
+# Download the stopwords from NLTK
+nltk.download('stopwords')
+nltk.download('stopwords')
+nltk.download('punkt')  
+
 def stopword_proportion(text):
     from nltk.corpus import stopwords
-    sw = set(stopwords.words('english'))
+    sw = set(stopwords.words('french'))
     words = text.split()
     return sum(1 for word in words if word in sw) / len(words)
 
