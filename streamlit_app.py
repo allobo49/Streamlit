@@ -5,12 +5,14 @@ import nltk
 from nltk.corpus import stopwords
 from joblib import load
 
-# Load your trained model
-@st.cache(allow_output_mutation=True)  # Use caching to load the model only once
+@st.cache(allow_output_mutation=True)
 def load_model():
-    return load('best_model_LR_features.joblib')
-
-model = load_model()
+    try:
+        model = load('best_model_LR_features.joblib')
+        return model
+    except Exception as e:
+        st.error(f"Error loading model: {str(e)}")
+        return None
 
 # NLTK resources for stopwords
 nltk.download('stopwords')
