@@ -72,6 +72,7 @@ if st.button("Predict Difficulty"):
         try:
             model = load('best_model_LR_features.joblib')
             if model:
+                features = extract_features(user_input)
                 prediction = model.predict(features)
                 st.write(f"Predicted Difficulty Level: {prediction[0]}")
         except Exception as e:
