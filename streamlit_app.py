@@ -6,7 +6,7 @@ from nltk.corpus import stopwords
 from joblib import load
 
 # Load your trained model
-@st.cache(allow_output_mutation=True)  # Use caching to load the model only once
+@st.cache(allow_output_mutation=True)
 def load_model():
     try:
         model = load('best_model_LR_features.joblib')
@@ -37,11 +37,15 @@ st.write('Enter a French text below and click the button to analyze its difficul
 user_input = st.text_area("Insert your text here", height=150)
 
 if st.button("Predict Difficulty"):
+    st.write("Button clicked!")
     if user_input:
+        st.write("Text provided:", user_input)
         try:
             model = load_model()
             if model:
+                st.write("Model loaded!")
                 features = extract_features(user_input)
+                st.write("Features extracted:", features)
                 prediction = model.predict(features)
                 st.write(f"Predicted Difficulty Level: {prediction[0]}")
         except Exception as e:
