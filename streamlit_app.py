@@ -30,7 +30,6 @@ def count_punctuation(text):
     return sum(1 for char in text if char in punctuation)
 
 nltk.download('stopwords')
-nltk.download('stopwords')
 nltk.download('punkt')
 
 def stopword_proportion(text):
