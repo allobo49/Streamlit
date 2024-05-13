@@ -54,13 +54,12 @@ st.title('French4U 🇫🇷')
 st.header('Text Difficulty Predictor')
 st.write('Enter a French text below and click the button to analyze its difficulty. The difficulty is rated on a scale from 0 to 6, where 0 corresponds to a basic A1 level and 6 denotes proficiency at the C2 level.')
 
-# Text input from the user
 user_input = st.text_area("Insert your text here", height=150)
 
 if st.button("Predict Difficulty"):
-    if input_text:
+    if user_input:  # Correct the variable name here
         # Feature extraction and reshape the input for the model
-        features = extract_features(input_text)
+        features = extract_features(user_input)  # And here
         prediction = model.predict(features)
         st.write(f"Predicted Difficulty Level: {prediction[0]}")
     else:
