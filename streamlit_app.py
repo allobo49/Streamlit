@@ -7,17 +7,6 @@ import textstat
 from joblib import load
 import spacy
 
-# Define the path where the French language model should be installed
-FRENCH_MODEL_PATH = "/usr/local/lib/python3.10/dist-packages/fr_core_news_sm/fr_core_news_sm-3.7.0"
-
-# Load the French language model from SpaCy
-try:
-    nlp = spacy.load(FRENCH_MODEL_PATH)
-except OSError:
-    print("Downloading and installing the French language model...")
-    subprocess.call(['python', '-m', 'spacy', 'download', 'fr_core_news_sm'])
-    nlp = spacy.load(FRENCH_MODEL_PATH)
-    
 # Load your trained model
 @st.cache(allow_output_mutation=True)  # Use caching to load the model only once
 def load_model():
@@ -53,16 +42,6 @@ def stopword_proportion(text):
 
 def flesch_kincaid_readability(text):
     return textstat.flesch_kincaid_grade(text)
-
-def analyze_pos(text):
-    doc = nlp(text)
-    pos_counts = {}
-    for token in doc:
-        if token.pos_ in pos_counts:
-            pos_counts[token.pos_] += 1
-        else:
-            pos_counts[token.pos_] = 1
-    return pos_counts
 
 def extract_features(text):
     base_features = {
