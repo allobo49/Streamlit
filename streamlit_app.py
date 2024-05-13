@@ -29,14 +29,6 @@ def count_punctuation(text):
     from string import punctuation
     return sum(1 for char in text if char in punctuation)
 
-nltk.download('stopwords', quiet=True)
-nltk.download('punkt')
-
-try:
-    nltk.download('stopwords', quiet=True)
-except Exception as e:
-    st.error(f"An error occurred while downloading NLTK resources: {str(e)}")
-
 def stopword_proportion(text):
     from nltk.corpus import stopwords
     sw = set(stopwords.words('french'))
