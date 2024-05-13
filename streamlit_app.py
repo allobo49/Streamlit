@@ -18,17 +18,45 @@ def load_model():
 # NLTK resources for stopwords
 nltk.download('stopwords')
 
-# Define the required functions for feature extraction
-def extract_features(text):
-    words = text.split()
-    num_words = len(words)
-    avg_word_length = np.mean([len(word) for word in words])
-    punctuation_count = sum(1 for char in text if char in set(',.:;!?'))
-    sw = set(stopwords.words('french'))
-    stopword_proportion = sum(1 for word in words if word in sw) / num_words
-    return pd.DataFrame([[num_words, avg_word_length, punctuation_count, stopword_proportion]],
-                        columns=['count_words', 'avg_word_length', 'punctuation_count', 'stopword_proportion'])
 
+# Define the required functions for feature extraction
+def count_words(text):
+    return len(text.split())
+
+def add_dot(text):
+    if not text.endswith('.'):
+        text += '.'
+    return text
+
+def avg_word_length(text):
+    words = text.split()
+    return np.mean([len(word) for word in words])
+
+def count_punctuation(text):
+    from string import punctuation
+    return sum(1 for char in text if char in punctuation)
+
+def stopword_proportion(text):
+    sw = set(stopwords.words('french'))
+    words = text.split()
+    return sum(1 for word in words if word in sw) / len(words)
+
+def flesch_kincaid_readability(text):
+    return textstat.flesch_kincaid_grade(text)
+
+def extract_features(text):
+    base_features = {
+        'sentence':text,
+        'count_words': count_words(text),
+        'avg_word_length': avg_word_length(text),
+        'punctuation_count': count_punctuation(text),
+        'stopword_proportion': stopword_proportion(text),
+        'flesch_kincaid_readability': flesch_kincaid_readability(text)
+    }
+    print("Extracted features:", base_features)
+    df = pd.DataFrame([base_features])
+    return df
+    
 # Streamlit app interface
 st.title('French4U 🇫🇷')
 st.header('Text Difficulty Predictor')
