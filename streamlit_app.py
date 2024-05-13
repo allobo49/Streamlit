@@ -7,11 +7,8 @@ import textstat
 from joblib import load
 import spacy
 
-# Path to the installed French language model
-FRENCH_MODEL_PATH = "/usr/local/lib/python3.10/dist-packages/fr_core_news_sm/fr_core_news_sm-3.7.0"
-
 # Load the French language model from SpaCy
-nlp = spacy.load(FRENCH_MODEL_PATH)
+nlp = spacy.load('fr_core_news_sm')
 
 # Load your trained model
 @st.cache(allow_output_mutation=True)  # Use caching to load the model only once
