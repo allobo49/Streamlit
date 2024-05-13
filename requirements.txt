@@ -4,3 +4,4 @@ nltk
 textstat
 joblib
 spacy
+scikit-learn
