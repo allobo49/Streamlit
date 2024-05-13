@@ -3,7 +3,6 @@ import pandas as pd
 import numpy as np
 import nltk
 from nltk.corpus import stopwords
-import textstat
 from joblib import load
 
 # Load your trained model
@@ -50,9 +49,7 @@ def extract_features(text):
         'stopword_proportion': stopword_proportion(text),
         'flesch_kincaid_readability': flesch_kincaid_readability(text)
     }
-    pos_features = analyze_pos(text)
-    features = {**base_features, **pos_features}
-    df = pd.DataFrame([features])
+    df = pd.DataFrame([base_features])
     return df
 
 # Streamlit app interface
