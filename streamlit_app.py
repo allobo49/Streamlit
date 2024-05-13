@@ -57,6 +57,11 @@ def extract_features(text):
     print("Extracted features:", base_features)
     df = pd.DataFrame([base_features])
     return df
+
+# Function to map difficulty levels to CEFR proficiency levels
+def map_to_cefr(difficulty_level):
+    cefr_levels = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2']
+    return cefr_levels[difficulty_level]
     
 # Streamlit app interface
 st.title('French4U 🇫🇷')
@@ -72,7 +77,8 @@ if st.button("Predict Difficulty"):
             if model:
                 features = extract_features(user_input)
                 prediction = model.predict(features)
-                st.write(f"Predicted Difficulty Level: {prediction[0]}")
+                predicted_cefr = map_to_cefr(prediction[0])
+                st.write(f"Predicted CEFR Level: {predicted_cefr}")
         except Exception as e:
             st.error(f"An error occurred during prediction: {str(e)}")
     else:
