@@ -6,9 +6,26 @@ from nltk.corpus import stopwords
 import textstat
 from joblib import load
 import spacy
+import os
+
+# Specify the path to the model directory
+model_path = '/path/to/fr_core_news_sm'
+
+# Check if the model directory exists
+if not os.path.exists(model_path):
+    raise FileNotFoundError(f"Model directory '{model_path}' not found.")
+
+# Check if the model directory is readable
+if not os.access(model_path, os.R_OK):
+    raise PermissionError(f"Insufficient permissions to read model directory '{model_path}'.")
 
 # Load the French language model from SpaCy
-nlp = spacy.load('fr_core_news_sm')
+try:
+    nlp = spacy.load(model_path)
+except IOError as e:
+    raise IOError(f"An IO error occurred while loading the model: {e}")
+except Exception as e:
+    raise Exception(f"An error occurred while loading the model: {e}")
 
 # Load your trained model
 @st.cache(allow_output_mutation=True)  # Use caching to load the model only once
