@@ -7,13 +7,16 @@ import textstat
 from joblib import load
 import spacy
 
-# Download the French language model if not already installed
+# Define the path where the French language model should be installed
+FRENCH_MODEL_PATH = "/usr/local/lib/python3.10/dist-packages/fr_core_news_sm/fr_core_news_sm-3.7.0"
+
+# Load the French language model from SpaCy
 try:
-    nlp = spacy.load('fr_core_news_sm')
+    nlp = spacy.load(FRENCH_MODEL_PATH)
 except OSError:
-    print("Downloading French language model...")
-    download('fr_core_news_sm')
-    nlp = spacy.load('fr_core_news_sm')
+    print("Downloading and installing the French language model...")
+    subprocess.call(['python', '-m', 'spacy', 'download', 'fr_core_news_sm'])
+    nlp = spacy.load(FRENCH_MODEL_PATH)
     
 # Load your trained model
 @st.cache(allow_output_mutation=True)  # Use caching to load the model only once
