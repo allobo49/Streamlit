@@ -32,6 +32,11 @@ def count_punctuation(text):
 nltk.download('stopwords', quiet=True)
 nltk.download('punkt')
 
+try:
+    nltk.download('stopwords', quiet=True)
+except Exception as e:
+    st.error(f"An error occurred while downloading NLTK resources: {str(e)}")
+
 def stopword_proportion(text):
     from nltk.corpus import stopwords
     sw = set(stopwords.words('french'))
