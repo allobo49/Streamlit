@@ -63,12 +63,13 @@ st.write('Enter a French text below and click the button to analyze its difficul
 user_input = st.text_area("Insert your text here", height=150)
 
 if st.button("Predict Difficulty"):
-    if user_input:
+    model = load_model()  # Load the model here
+    if model is not None and user_input:
         try:
             features = extract_features(user_input)
             prediction = model.predict(features)
             st.write(f"Predicted Difficulty Level: {prediction[0]}")
         except Exception as e:
             st.error(f"An error occurred during prediction: {str(e)}")
-    else:
+    elif not user_input:
         st.write("Please enter some text to predict its difficulty.")
