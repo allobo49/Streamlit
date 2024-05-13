@@ -7,13 +7,7 @@ from nltk.corpus import stopwords
 from joblib import load
 
 @st.cache(allow_output_mutation=True)
-def load_model():
-    try:
-        model = load('best_model_LR_features.joblib')
-        return model
-    except Exception as e:
-        st.error(f"Error loading model: {str(e)}")
-        return None
+model = load('best_model_LR_features.joblib')
 
 # NLTK resources for stopwords
 nltk.download('stopwords')
