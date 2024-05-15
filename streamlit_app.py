@@ -66,7 +66,7 @@ def map_to_cefr(difficulty_level):
 # Streamlit app interface
 st.title('French4U 🇫🇷')
 st.header('Text Difficulty Predictor')
-st.write('Enter a French sentence below and click the button to analyze its difficulty.')
+st.write('Enter a French sentence below and click the button to analyze its difficulty. Note that if the sentence is not in French, the difficulty prediction will not be accurate.')
 
 user_input = st.text_area("Insert your text here", height=150)
 
